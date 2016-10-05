@@ -71,8 +71,6 @@ modern_icon <- makeIcon(
   iconAnchorX = 31*215/230/2, iconAnchorY = 16
 )
 
-tourist_map <- tourist_map %>%
-  addLayersControl()
 
 for (x in 1:dim(historic)[1]){
   tourist_map <- tourist_map %>%
