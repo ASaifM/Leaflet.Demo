@@ -1,0 +1,114 @@
+---
+title: "Touristic Spots"
+author: "Aya Mahfouz"
+date: "October 3, 2016"
+output: html_document
+---
+
+This map represents some of the touristic spots in Egypt. I've classified them
+into:
+
+<ol>
+<li><img src="leaf.svg" alt="Nature" style="width:30px;height:22px;"> Natural reserves</li>
+<li><img src="arc.svg" alt="Amusement" style="width:30px;height:22px;"> Parks and public spots</li>
+<li><img src="pyramid.ico" alt="Amusement" style="width:30px;height:30px;"> Historic spots</li>
+</ol>
+
+Upon hovering over a marker, the name and place of the spot will be displayed.
+
+
+```{r echo=FALSE}
+library(leaflet)
+
+historic <- data.frame(
+    lat = c( 29.9792345, 22.3372319,  30.0477818, 30.045688,  29.205255, 31.214011),
+    lng = c( 31.1342019, 31.62579900000003,  31.2336493, 31.2626851,  25.54349780000007, 29.885638299999982),
+    popup = c(
+              "Al Haram, Nazlet El-Semman, Al Haram, Giza Governorate, Egypt",
+              "Abu Simbel Temples, Aswan Governorate, Egypt",
+              "Egyptian Museum Tahrir Square, Meret Basha, Ismailia, Qasr an Nile, Cairo Governorate 11516, Egypt",
+              "Al-Azhar Mosque El-Darb El-Ahmar, Cairo Governorate, Egypt",
+              "Temple of the Oracle of Amun Qesm Siwah, Matrouh Governorate, Egypt",
+              "Citadel of Qaitbay As Sayalah Sharq, Qesm Al Gomrok, Alexandria Governorate, Egypt")
+)
+
+nature <- data.frame(
+            lat = c(28.6864529, 29.2725272, 28.20186, 22.202981274057798,29.1259272,24.4659788),
+            lng = c(33.9918293, 30.0405228, 28.7308788, 36.37590408325195,34.68661129999998,34.88193520000004),
+            popup = c("Saint Catherine Mountain Qesm Saint Katrin, South Sinai Governorate, Egypt",
+              "Wadi Hitan National Park Giza Governorate, Egypt",
+              "Black Desert Al Wahat Al Bahriya - Al Farafra Rd, Giza Governorate, Egypt",
+              "Gebel Elba",
+              "Ras Shaitan Nuweibaa - Taba Rd, Qesm Nwebaa, South Sinai Governorate, Egypt",
+              "Wadi el Gemal National Park Qesm Marsa Alam, Red Sea Governorate, Egypt")
+)
+
+modern <- data.frame(
+          lat = c(27.0479007, 30.0409685),
+          lng = c(33.8898182, 31.2652541),
+          popup= c("Sahl Hashish Rd, Qesm Hurghada, Red Sea Governorate, Egypt",
+                   "Al Azhar Park, Salah Salem St, El-Darb El-Ahmar, Cairo Governorate, Egypt")
+  )
+
+tourist_map <- leaflet() %>% 
+  addTiles()
+
+
+pyramid_icon <- makeIcon(
+  iconUrl = "pyramid.ico"
+)
+
+nature_icon <- makeIcon(
+  iconUrl = "leaf.svg",
+  iconWidth = 24, iconHeight = 24,
+  iconAnchorX = 31*215/230/2, iconAnchorY = 16
+)
+
+
+modern_icon <- makeIcon(
+  iconUrl = "arc.svg",
+  iconWidth = 24, iconHeight = 24,
+  iconAnchorX = 31*215/230/2, iconAnchorY = 16
+)
+
+tourist_map <- tourist_map %>%
+  addLayersControl()
+
+for (x in 1:dim(historic)[1]){
+  tourist_map <- tourist_map %>%
+  addMarkers(lat=historic[x,1], lng=historic[x,2], 
+             popup=historic[x,3],icon = pyramid_icon)
+}
+
+for (x in 1:dim(nature)[1]){
+  tourist_map <- tourist_map %>%
+  addMarkers(lat=nature[x,1], lng=nature[x,2], 
+             popup=nature[x,3],icon = nature_icon)
+}
+
+for (x in 1:dim(nature)[1]){
+  tourist_map <- tourist_map %>%
+  addMarkers(lat=nature[x,1], lng=nature[x,2], 
+             popup=nature[x,3],icon = nature_icon)
+}
+
+for (x in 1:dim(modern)[1]){
+  tourist_map <- tourist_map %>%
+  addMarkers(lat=modern[x,1], lng=modern[x,2], 
+             popup=modern[x,3],icon = modern_icon)
+}
+
+
+
+tourist_map
+
+
+```
+
+##Resources
+###Icons
+1. <a href="www.flaticon.com"> www.flaticon.com </a>
+2. <a href="www.freepik.com"> www.freepik.com </a>
+
+###Spots Coordinates and Names
+1. <a href="www.maps.google.com"> Google Maps </a>
